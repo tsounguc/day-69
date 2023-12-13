@@ -77,10 +77,21 @@ def register():
     if form.validate_on_submit():
         with app.app_context():
             # Use Werkzeug to hash the user's password when creating a new user.
-            password_hash = generate_password_hash(password=form.password.data, method='pbkdf2', salt_length=8)
-            user = User(email=form.email.data, password=password_hash, name=form.name.data)
-            db.session.add(user)
-            db.session.commit()
+            user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+            if user:
+                flash("You've already signed up with that email. Log in instead")
+                return redirect(url_for('login'))
+            else:
+                password_hash = generate_password_hash(password=form.password.data, method='pbkdf2', salt_length=8)
+                user = User(email=form.email.data, password=password_hash, name=form.name.data)
+                db.session.add(user)
+                db.session.commit()
+
+                user = db.session.execue(db.select(User).where(User.email == form.email.data)).scalar()
+
+                login_user(user)
+                return redirect(url_for('get_all_posts'))
+
     return render_template("register.html", form=form)
 
 
