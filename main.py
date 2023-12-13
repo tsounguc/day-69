@@ -95,14 +95,20 @@ def register():
     return render_template("register.html", form=form)
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     # Retrieve a user from the database based on their email.
     form = LoginForm()
     if form.validate_on_submit():
         with app.app_context():
             user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
-            if user and check_password_hash(pwhash=user.password, password=form.password.data):
+            if not user:
+                flash("That email does not exist, please try again.")
+                return redirect(url_for('login'))
+            elif not check_password_hash(pwhash=user.password, password=form.password.data):
+                flash("Password incorrect, please try again.")
+                return redirect(url_for('login'))
+            else:
                 login_user(user)
                 return redirect(url_for('get_all_posts'))
 
