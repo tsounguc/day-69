@@ -9,7 +9,7 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm
+from forms import CreatePostForm, RegisterForm, LoginForm
 
 '''
 Make sure the required packages are installed: 
@@ -77,10 +77,15 @@ def register():
     return render_template("register.html", form=form)
 
 
-# TODO: Retrieve a user from the database based on their email. 
 @app.route('/login')
 def login():
-    return render_template("login.html")
+    # Retrieve a user from the database based on their email.
+    form = LoginForm()
+    if form.validate_on_submit():
+        with app.app_context():
+            user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+
+    return render_template("login.html", form=form)
 
 
 @app.route('/logout')
