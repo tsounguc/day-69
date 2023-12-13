@@ -81,17 +81,19 @@ def register():
             user = User(email=form.email.data, password=password_hash, name=form.name.data)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
     return render_template("register.html", form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
     # Retrieve a user from the database based on their email.
     form = LoginForm()
     if form.validate_on_submit():
         with app.app_context():
             user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+            if user and check_password_hash(pwhash=user.password, password=form.password.data):
+                login_user(user)
+                return redirect(url_for('get_all_posts'))
 
     return render_template("login.html", form=form)
 
