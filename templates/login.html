@@ -22,7 +22,7 @@ include "header.html" %}
   <div class="container">
     <div class="row">
       <!-- add a flash message here for users registering twice -->
-      {% with messages = get_flashed_message() %}
+      {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
             <p class="flash">{{ message }}</p>
