@@ -32,13 +32,13 @@ Bootstrap5(app)
 # Configure Flask-Login
 login_manager = LoginManager()
 
-
 # CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 db = SQLAlchemy()
 db.init_app(app)
 
 login_manager.init_app(app)
+
 
 # CONFIGURE TABLES
 class BlogPost(db.Model):
@@ -53,7 +53,7 @@ class BlogPost(db.Model):
 
 
 # User table for all your registered users.
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String(100))
@@ -64,15 +64,14 @@ with app.app_context():
     db.create_all()
 
 
-
-@app.route('/register', methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         with app.app_context():
             # Use Werkzeug to hash the user's password when creating a new user.
             password_hash = generate_password_hash(password=form.password.data, method='pbkdf2', salt_length=8)
-            user = User(email=form.email.data,password=password_hash, name=form.name.data)
+            user = User(email=form.email.data, password=password_hash, name=form.name.data)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
