@@ -71,6 +71,13 @@ def load_user(user_id):
     return user
 
 
+def check_user_access():
+    is_admin = False
+    if current_user.is_authenticated:
+        is_admin = current_user.id == 1
+    return is_admin
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -87,7 +94,7 @@ def register():
                 db.session.add(user)
                 db.session.commit()
 
-                user = db.session.execue(db.select(User).where(User.email == form.email.data)).scalar()
+                user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
 
                 login_user(user)
                 return redirect(url_for('get_all_posts'))
@@ -125,14 +132,15 @@ def logout():
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
-    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated)
+
+    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated, is_admin=check_user_access())
 
 
 # Allow logged-in users to comment on posts
 @app.route("/post/<int:post_id>")
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
-    return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated)
+    return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated, is_admin=check_user_access())
 
 
 # TODO: Use a decorator so only an admin user can create a new post
