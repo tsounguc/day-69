@@ -64,6 +64,13 @@ with app.app_context():
     db.create_all()
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    with app.app_context():
+        user = db.get_or_404(User, user_id)
+    return user
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
