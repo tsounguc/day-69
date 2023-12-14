@@ -6,6 +6,8 @@ from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
+
+from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
@@ -40,6 +42,20 @@ db.init_app(app)
 login_manager.init_app(app)
 
 
+# User table for all registered users.
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
+
+    # This will act like a List of BlogPost objects attached to each User.
+    # The "author" refers to the author property in the BlogPost class.
+    posts = relationship("BlogPost", back_populates="author")
+
+
 # CONFIGURE TABLES
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -48,16 +64,18 @@ class BlogPost(db.Model):
     subtitle = db.Column(db.String(250), nullable=False)
     date = db.Column(db.String(250), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(250), nullable=False)
+    # author = db.Column(db.String(250), nullable=False)
+    # Create reference to the User object, the "posts" refers to the posts protperty in the User class.
+    author = relationship("User", back_populates='posts')
     img_url = db.Column(db.String(250), nullable=False)
 
+    # Create Foreign Key, "users.id" the users refers to the tablename of User.
+    author_id = db.Column(db.Integer, ForeignKey("users.id"))
 
-# User table for all your registered users.
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String, unique=True)
-    password = db.Column(db.String(100))
-    name = db.Column(db.String(1000))
+
+
+
+
 
 
 with app.app_context():
@@ -85,6 +103,7 @@ def admin_only(function):
             return function(*args, **kwargs)
         else:
             return abort(403)
+
     return wrapper
 
 
