@@ -11,7 +11,7 @@ from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm, LoginForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 '''
 Make sure the required packages are installed: 
@@ -71,11 +71,6 @@ class BlogPost(db.Model):
 
     # Create Foreign Key, "users.id" the users refers to the tablename of User.
     author_id = db.Column(db.Integer, ForeignKey("users.id"))
-
-
-
-
-
 
 
 with app.app_context():
@@ -170,8 +165,9 @@ def get_all_posts():
 @app.route("/post/<int:post_id>")
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
+    form = CommentForm()
     return render_template("post.html", post=requested_post, logged_in=current_user.is_authenticated,
-                           is_admin=check_user_access())
+                           is_admin=check_user_access(), form=form)
 
 
 # Use a decorator so only an admin user can create a new post
