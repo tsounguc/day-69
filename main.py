@@ -162,7 +162,7 @@ def register():
                 user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
 
                 login_user(user)
-                return redirect(url_for('get_all_posts'))
+                return redirect(url_for('home'))
 
     return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
 
@@ -182,7 +182,7 @@ def login():
                 return redirect(url_for('login'))
             else:
                 login_user(user)
-                return redirect(url_for('get_all_posts'))
+                return redirect(url_for('home'))
 
     return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
 
@@ -194,11 +194,18 @@ def logout():
 
 
 @app.route("/")
+def home():
+    return render_template("index.html", logged_in=current_user.is_authenticated,
+                           is_admin=check_user_access())
+    pass
+
+
+@app.route("/blog")
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
 
-    return render_template("index.html", all_posts=posts, logged_in=current_user.is_authenticated,
+    return render_template("blog.html", all_posts=posts, logged_in=current_user.is_authenticated,
                            is_admin=check_user_access())
 
 

@@ -8,7 +8,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Christian's Blog</title>
+    <title>Christian Tsoungui Nkoulou</title>
     {% block styles %}
     <!-- Load Bootstrap-Flask CSS here -->
     {{ bootstrap.load_css() }}
@@ -46,7 +46,7 @@
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="/">
 <!--          <img class="profile-img" src="{{ url_for('static', filename='assets/img/christian-profile.JPG') }}" height="45" width="40" style="border-radius:50%">-->
-          Christian Tsoungui Nkoulou
+          Christian
         </a>
         <button
           class="navbar-toggler"
@@ -65,38 +65,28 @@
             <li class="nav-item">
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
-                href="{{ url_for('get_all_posts') }}"
+                href="{{ url_for('home') }}"
                 >Home</a
               >
             </li>
-            <!-- TODO: Only show Login/Register if user is logged out. Otherwise show "Log Out" -->
-            {% if not logged_in %}
             <li class="nav-item">
               <a
-                class="nav-link px-lg-3 py-3 py-lg-4"
-                href="{{ url_for('login') }}"
-                >Login</a
-              >
+                 class="nav-link px-lg-3 py-3 py-lg-4"
+                 href="{{ url_for('get_all_posts')}}"
+              >Experience</a>
             </li>
-            {% endif %}
-            {% if not logged_in %}
             <li class="nav-item">
               <a
-                class="nav-link px-lg-3 py-3 py-lg-4"
-                href="{{ url_for('register') }}"
-                >Register</a
-              >
+                 class="nav-link px-lg-3 py-3 py-lg-4"
+                 href="{{ url_for('get_all_posts')}}"
+              >Projects</a>
             </li>
-            {% endif %}
-            {% if logged_in %}
             <li class="nav-item">
               <a
-                class="nav-link px-lg-3 py-3 py-lg-4"
-                href="{{ url_for('logout') }}"
-                >Log Out</a
-              >
+                 class="nav-link px-lg-3 py-3 py-lg-4"
+                 href="{{ url_for('get_all_posts')}}"
+              >Blog</a>
             </li>
-            {% endif %}
             <li class="nav-item">
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
@@ -111,6 +101,33 @@
                 >Contact</a
               >
             </li>
+            <!-- TODO: Only show Login/Register if user is logged out. Otherwise show "Log Out" -->
+            {% if not logged_in %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('login') }}"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('register') }}"
+                >Register</a
+              >
+            </li>
+            {% endif %}
+
+            {% if logged_in %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('logout') }}"
+                >Log Out</a
+              >
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
