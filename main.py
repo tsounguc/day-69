@@ -197,7 +197,16 @@ def logout():
 def home():
     return render_template("index.html", logged_in=current_user.is_authenticated,
                            is_admin=check_user_access())
-    pass
+
+
+@app.route("/experience")
+def experience():
+    return render_template("experience.html", logged_in=current_user.is_authenticated)
+
+
+@app.route("/projects")
+def projects():
+    return render_template("projects.html", logged_in=current_user.is_authenticated)
 
 
 @app.route("/blog")
