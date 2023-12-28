@@ -9,7 +9,6 @@
       <div class="col-md-10 col-lg-10 col-xl-10">
         <div class="page-heading">
           <span>Some projects I've worked on</span>
-<!--          <span class="subheading">Some I've worked on</span>-->
         </div>
       </div>
     </div>
@@ -18,7 +17,7 @@
 <!--  Projects-->
 <div class="container px-4 py-5" id="custom-cards">
   <div class="vegan_bestie">
-    <a href="https://www.instagram.com/vgbestie/" >
+    <a href="{{ url_for('show_project') }}" >
       <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-2">
         <div class="col">
           <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('../static/assets/img/vegan_bestie_logo.png')">
@@ -27,7 +26,7 @@
         </div>
         <div>
           <h4 class="fw-bold">Vegan Bestie</h4>
-          <p class="mb-4 ">Mobile app that scans the barcode of a food product and indicates if it's vegan, and finds vegan friendly restaurants nearby</p>
+          <p class="mb-4 ">Mobile app that helps you determine if a food product is vegan and helps you find vegan friendly restaurants nearby</p>
         </div>
       </div>
     </a>

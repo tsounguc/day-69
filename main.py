@@ -208,6 +208,11 @@ def experience():
 def projects():
     return render_template("projects.html", logged_in=current_user.is_authenticated)
 
+@app.route("/show_project")
+def show_project():
+    return render_template("project.html")
+
+
 
 @app.route("/blog")
 def get_all_posts():

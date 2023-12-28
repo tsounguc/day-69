@@ -1,0 +1,43 @@
+{% include "header.html" %}
+<header class="masthead" style="background-image: url('../static/assets/img/vegan_bestie_bg.png') ">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <h1>Vegan Bestie</h1>
+<!--          <span>Mobile app that scans the barcode of a food product and indicates if it's vegan, and finds vegan friendly restaurants nearby</span>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+
+        <p class="subheading">
+            Vegan Bestie is a lifestyle mobile app that helps you determine if a food product is vegan
+        </p>
+
+        <div class="row">
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/vegan_bestie_home_page.jpg') }}" height='400'></div>
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/vegan_bestie_scan.jpg') }}" height='400'></div>
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/vegan_bestie_product.jpg') }}" height='400'></div>
+        </div><br><br><br>
+
+        <p> It also helps you find vegan friendly restaurants nearby</p>
+        <div class="row">
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/restaurants_map.jpg') }}" height='400'></div>
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/restaurants_list.jpg') }}" height='400'></div>
+          <div class="col"><img src="{{ url_for('static', filename='assets/img/restaurant.jpg') }}" height='400'></div>
+        </div><br><br><br>
+
+        <p>It's available on <a href="https://play.google.com/store/apps/details?id=com.christiantsoungui.veganbestie">Google Playstore</a> and <a href="https://apps.apple.com/us/app/vegan-bestie/id6448803152">Apple Appstore</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+{% include "footer.html" %}
